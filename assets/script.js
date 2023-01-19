@@ -19,33 +19,52 @@ function getCoordinates() {
     })
     .then((geoRes) => {
         console.log(geoRes);
-        getCurrentWeather(geoRes);
-        //getForecast(geoRes);
+        // getCurrentWeather(geoRes);
+        getForecast(geoRes);
     })
     .catch((error) => {
         console.error(error);
     });
 }
 
-function getCurrentWeather(geoRes) {
-    var currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?lat=" + geoRes[0].lat + "&lon=" + geoRes[0].lon + "&appid=07220a51e95b28fddb66e8043de4c734";
+// function getCurrentWeather(geoRes) {
+//     var currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?lat=" + geoRes[0].lat + "&lon=" + geoRes[0].lon + "&appid=07220a51e95b28fddb66e8043de4c734";
 
-    fetch(currentWeatherAPI)
+//     fetch(currentWeatherAPI)
+//     .then((response) => {
+//         if(!response.ok) {
+//             throw response.json();
+//         }
+//         return response.json();
+//     })
+//     .then((cwRes) => {
+//         console.log(cwRes);
+//         displayWeather(cwRes);
+//     })
+//     .catch((error) => {
+//         console.error(error);
+//     });
+// }
+
+function getForecast(geoRes) {
+    var forecastAPI = "https://api.openweathermap.org/data/2.5/forecast?lat=" + geoRes[0].lat + "&lon=" + geoRes[0].lon + "&appid=07220a51e95b28fddb66e8043de4c734";
+
+    fetch(forecastAPI)
     .then((response) => {
         if(!response.ok) {
             throw response.json();
         }
         return response.json();
     })
-    .then((cwRes) => {
-        console.log(cwRes);
-        displayWeather(cwRes);
+    .then((fcRes) => {
+        console.log(fcRes);
+        // displayWeather(fcRes);
     })
     .catch((error) => {
         console.error(error);
     });
 }
 
-function displayWeather() {}
+function displayWeather(cwRes, fcRes) {}
 
 searchBtn.addEventListener('click', getCoordinates)
