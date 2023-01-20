@@ -1,5 +1,37 @@
 // var searchBtn = ;
 
+//when searched, add to local storage as object with city-names and coordinates as values
+    //cityHistory = {cityName = {lat:'', lon:'',},}
+    //localStorage.setItem('WeatherDashboard-History', cityHistory)
+//on page load, localStorage.getItem('weatherDashboard-History);
+
+
+
+function displayHistory() {
+    var cityHistory = localStorage.getItem('cityHistory');
+    if(cityHistory) {
+        cityHistory = JSON.parse(cityHistory);
+
+        cityHistory.forEach(function(city) {
+
+            var historyBtnEl = document.createElement('button');
+            historyBtnEl.setAttribute('class', "btn btn-history");
+            historyBtnEl.textContent = city;
+            document.querySelector('#history-card').appendChild(historyBtnEl);
+
+        });
+    } else {
+        cityHistory = [];
+    }
+    return cityHistory;
+}
+
+displayHistory();
+
+function btnEventHandler(event) {
+    var cityName = event.target.text();
+}
+
 function getCoordinates() {
     var inputEl = document.querySelector('input');
     var geoAPI = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputEl.value + "&limit=1&appid=07220a51e95b28fddb66e8043de4c734"
@@ -12,17 +44,18 @@ function getCoordinates() {
         return response.json();
     })
     .then((geoRes) => {
-        console.log(geoRes);
-        getCurrentWeather(geoRes);
-        getForecast(geoRes);
+        console.log(geoRes[0]);
+        getCurrentWeather(geoRes[0]);
+        getForecast(geoRes[0]);
+        storeCity(geoRes[0]);
     })
     .catch((error) => {
         console.error(error);
     });
 }
 
-function getCurrentWeather(geoRes) {
-    var currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?lat=" + geoRes[0].lat + "&lon=" + geoRes[0].lon + "&appid=07220a51e95b28fddb66e8043de4c734&units=imperial";
+function getCurrentWeather(coords) {
+    var currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?lat=" + coords.lat + "&lon=" + coords.lon + "&appid=07220a51e95b28fddb66e8043de4c734&units=imperial";
 
     fetch(currentWeatherAPI)
     .then((response) => {
@@ -40,8 +73,8 @@ function getCurrentWeather(geoRes) {
     });
 }
 
-function getForecast(geoRes) {
-    var forecastAPI = "https://api.openweathermap.org/data/2.5/forecast?lat=" + geoRes[0].lat + "&lon=" + geoRes[0].lon + "&appid=07220a51e95b28fddb66e8043de4c734&units=imperial";
+function getForecast(coords) {
+    var forecastAPI = "https://api.openweathermap.org/data/2.5/forecast?lat=" + coords.lat + "&lon=" + coords.lon + "&appid=07220a51e95b28fddb66e8043de4c734&units=imperial";
 
     fetch(forecastAPI)
     .then((response) => {
@@ -105,4 +138,6 @@ function displayForecast(data) {
     })
 }
 
-document.querySelector('.btn-primary').addEventListener('click', getCoordinates)
+document.querySelector('.btn-primary').addEventListener('click', getCoordinates);
+
+document.querySelector('#history-card').addEventListener('click', btnEventHandler);
