@@ -10,24 +10,22 @@ header {
     background-image: linear-gradient(to right,  rgb(61, 103, 216), rgb(8, 33, 102)) ;
 }
 
+h1, h2, h3, h4 {
+    font-weight: bold;
+}
+
 h1 {
     position: absolute;
     right: 28%;
     top: 16px;
     font-size: 2rem;
-    font-weight: bold;
     color: white;
     margin: 0;
 }
 
 h2 {
     font-size: 2.3rem;
-    font-weight: bold;
     margin-bottom: 20px;
-}
-
-h3 {
-    font-weight: bold;
 }
 
 label {
@@ -71,7 +69,7 @@ img {
 }
 
 .forecast-day {
-    background-color: rgb(43, 64, 102);
+    background-color: rgb(21, 37, 66);
     color: white;
     font-size: 16px;
     width: 10rem;

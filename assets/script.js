@@ -1,13 +1,7 @@
-//get coordinates: http://api.openweathermap.org/geo/1.0/direct?q={city}}&limit=1&appid=07220a51e95b28fddb66e8043de4c734
-//get current weather: https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=07220a51e95b28fddb66e8043de4c734
-//get 5-day forecast: api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid=07220a51e95b28fddb66e8043de4c734
-// weather icon url: https://openweathermap.org/img/wn/{icon}.png
-
-var searchBtn = document.querySelector('.btn-primary');
-var inputEl = document.querySelector('input');
+// var searchBtn = ;
 
 function getCoordinates() {
-    console.log("getting coords: " + inputEl.value);
+    var inputEl = document.querySelector('input');
     var geoAPI = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputEl.value + "&limit=1&appid=07220a51e95b28fddb66e8043de4c734"
 
     fetch(geoAPI)
@@ -20,7 +14,7 @@ function getCoordinates() {
     .then((geoRes) => {
         console.log(geoRes);
         getCurrentWeather(geoRes);
-        // getForecast(geoRes);
+        getForecast(geoRes);
     })
     .catch((error) => {
         console.error(error);
@@ -46,71 +40,31 @@ function getCurrentWeather(geoRes) {
     });
 }
 
-// function getForecast(geoRes) {
-//     var forecastAPI = "https://api.openweathermap.org/data/2.5/forecast?lat=" + geoRes[0].lat + "&lon=" + geoRes[0].lon + "&appid=07220a51e95b28fddb66e8043de4c734";
+function getForecast(geoRes) {
+    var forecastAPI = "https://api.openweathermap.org/data/2.5/forecast?lat=" + geoRes[0].lat + "&lon=" + geoRes[0].lon + "&appid=07220a51e95b28fddb66e8043de4c734&units=imperial";
 
-//     fetch(forecastAPI)
-//     .then((response) => {
-//         if(!response.ok) {
-//             throw response.json();
-//         }
-//         return response.json();
-//     })
-//     .then((fcRes) => {
-//         console.log(fcRes);
-//         displayForecast(fcRes);
-//     })
-//     .catch((error) => {
-//         console.error(error);
-//     });
-// }
-
-
-// function displayCurrentWeather(data) {
-//     var weatherDiv = document.createElement('div');
-//     weatherDiv.setAttribute('class', 'card-body');
-//     weatherDiv.setAttribute('id', 'weather-div');
-
-//     var cityNameEl = document.createElement('h2');
-//     cityNameEl.setAttribute('class', 'city-name');
-
-//     var tempEl = document.createElement('p');
-//     var windEl = document.createElement('p');
-//     var humidityEl = document.createElement('p');
-
-//     cityNameEl.textContent = data.name + " (" + dayjs.unix(data.dt).format('M/DD/YYYY') + ") ";
-//     tempEl.textContent = "Temp: " + data.main.temp + "°F";
-//     windEl.textContent = "Wind: " + data.wind.speed + " MPH";
-//     humidityEl.textContent = "Humidity: " + data.main.humidity + " %";
-
-//     var weatherResDiv = document.querySelector('#weather-results');
-    
-//     weatherDiv.appendChild(cityNameEl);
-//     weatherDiv.appendChild(tempEl);
-//     weatherDiv.appendChild(windEl);
-//     weatherDiv.appendChild(humidityEl);
-//     weatherResDiv.appendChild(weatherDiv);
-// }
-
-var data = {
-    dt: "date",
-    name: "cityname",
-    main: {
-        temp:"temp",
-        humidity:"humidity"
-    },
-    wind: {
-        speed: "wind speed",
-    },
-    icon: '04n',
+    fetch(forecastAPI)
+    .then((response) => {
+        if(!response.ok) {
+            throw response.json();
+        }
+        return response.json();
+    })
+    .then((fcRes) => {
+        console.log(fcRes);
+        displayForecast(fcRes);
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 }
 
-function displayCurrentWeather() {
+function displayCurrentWeather(data) {
     document.querySelector('#weather-div').setAttribute('style', 'display:block;');
 
     document.querySelector('#city-name').textContent = data.name + " (" + dayjs.unix(data.dt).format('M/DD/YYYY') + ") ";
 
-    var iconUrl = 'https://openweathermap.org/img/wn/' + data.icon + '.png';
+    var iconUrl = 'https://openweathermap.org/img/wn/' + data.weather[0].icon + '.png';
     document.querySelector('#current-icon').setAttribute('src', iconUrl);
 
     document.querySelector('#current-temp').textContent = "Temp: " + data.main.temp + "°F";
@@ -119,15 +73,36 @@ function displayCurrentWeather() {
 
 }
 
-function displayForecast() {
+function displayForecast(data) {
+    var daysData = [data.list[4], data.list[12], data.list[20], data.list[28], data.list[36]];
+    console.log(daysData);
     document.querySelector('#forecast-div').setAttribute('style', 'display:block;');
 
-    // for-loop 5-day array
+    daysData.forEach(function(index) {
+        var parentDiv = document.querySelector('.forecast-flexbox');
+        var dayDiv = document.createElement('div');
+        var dateEl = document.createElement('h4');
+        var iconEl = document.createElement('img');
+        var tempEl = document.createElement('p');
+        var windEl = document.createElement('p');
+        var humidityEl = document.createElement('p');
+        
+        dayDiv.setAttribute('class', 'forecast-day');
+        var iconUrl = 'https://openweathermap.org/img/wn/' + index.weather[0].icon + '.png';
+        iconEl.setAttribute('src', iconUrl);
 
-    tempEl.textContent = "Temp: " + data.main.temp + "°F";
-    windEl.textContent = "Wind: " + data.wind.speed + " MPH";
-    humidityEl.textContent = "Humidity: " + data.main.humidity + " %";
+        dateEl.textContent = dayjs.unix(index.dt).format('M/DD/YYYY');
+        tempEl.textContent = "Temp: " + index.main.temp + "°F";
+        windEl.textContent = "Wind: " + index.wind.speed + " MPH";
+        humidityEl.textContent = "Humidity: " + index.main.humidity + " %";
+
+        parentDiv.appendChild(dayDiv);
+        dayDiv.appendChild(dateEl);
+        dayDiv.appendChild(iconEl);
+        dayDiv.appendChild(tempEl);
+        dayDiv.appendChild(windEl);
+        dayDiv.appendChild(humidityEl);
+    })
 }
 
-// searchBtn.addEventListener('click', getCoordinates)
-searchBtn.addEventListener('click', displayCurrentWeather)
+document.querySelector('.btn-primary').addEventListener('click', getCoordinates)
