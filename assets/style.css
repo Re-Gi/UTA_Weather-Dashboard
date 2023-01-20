@@ -35,6 +35,10 @@ label {
     font-weight: bolder;
 }
 
+img {
+    vertical-align: top;
+}
+
 .card {
     flex-direction: row;
     width: 100%;
@@ -61,6 +65,19 @@ label {
     border-color: rgb(156, 156, 156);
 }
 
+.forecast-flexbox {
+    display: flex;
+    gap: 3rem;
+}
+
+.forecast-day {
+    background-color: rgb(43, 64, 102);
+    color: white;
+    font-size: 16px;
+    width: 10rem;
+    padding: 5px;
+}
+
 #search-div {
     margin: 0;
 }
@@ -75,6 +92,16 @@ label {
 }
 
 #weather-div {
+    display: none;
     padding: 10px;
     border: 2px solid black;
+}
+
+#forecast-div {
+    display: none;
+}
+
+#city-name {
+    display: inline-block;
+    width: fit-content;
 }
