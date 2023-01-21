@@ -39,7 +39,7 @@ img {
 
 .card {
     flex-direction: row;
-    width: 100%;
+    flex-wrap: wrap;
     border: none;
 }
 
@@ -65,19 +65,20 @@ img {
 
 .forecast-flexbox {
     display: flex;
-    gap: 3rem;
+    justify-content: space-between;
 }
 
 .forecast-day {
     background-color: rgb(21, 37, 66);
     color: white;
     font-size: 16px;
-    width: 10rem;
+    width: 12rem;
     padding: 5px;
 }
 
 #search-div {
     margin: 0;
+    width: 14rem;
 }
 
 #history-card {
@@ -86,17 +87,19 @@ img {
 }
 
 #weather-results {
-    flex-grow: 15;
+    flex: 11;
 }
 
 #weather-div {
     display: none;
+    width: 85%;
     padding: 10px;
     border: 2px solid black;
 }
 
 #forecast-div {
     display: none;
+    width: 85%;
 }
 
 #city-name {

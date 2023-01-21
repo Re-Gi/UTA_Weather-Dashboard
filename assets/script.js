@@ -1,12 +1,3 @@
-// var searchBtn = ;
-
-//when searched, add to local storage as object with city-names and coordinates as values
-    //cityHistory = {cityName = {lat:'', lon:'',},}
-    //localStorage.setItem('WeatherDashboard-History', cityHistory)
-//on page load, localStorage.getItem('weatherDashboard-History);
-
-// var cityHistory = [["San Diego", lat, lon],]
-
 
 function getHistoryFromStorage() {
     var cityHistory = localStorage.getItem('cityHistory');
@@ -26,7 +17,7 @@ function displayHistory() {
 
         var historyBtnEl = document.createElement('button');
         historyBtnEl.setAttribute('class', "btn btn-history");
-        historyBtnEl.textContent = city[0];
+        historyBtnEl.textContent = city.name;
         document.querySelector('#history-card').appendChild(historyBtnEl);
 
     });
@@ -34,12 +25,23 @@ function displayHistory() {
 
 displayHistory();
 
-// function btnEventHandler(event) {
-//     var cityName = event.target.text();
-// }
+function historyClickHandler(event) {
+    var cityName = event.target.textContent;
+    console.log(cityName);
+    var cityHistory = getHistoryFromStorage();
+
+    cityHistory.forEach(function(city) {
+        if(city.name.includes(cityName)) {
+            return cityArr = city;
+        }
+    });
+
+    console.log(cityArr);
+    getCurrentWeather(cityArr);
+    getForecast(cityArr);
+}
 
 function getCoordinates() {
-
     var inputEl = document.querySelector('input');
     var geoAPI = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputEl.value + "&limit=1&appid=07220a51e95b28fddb66e8043de4c734"
 
@@ -51,7 +53,7 @@ function getCoordinates() {
         return response.json();
     })
     .then((geoRes) => {
-        console.log(geoRes[0]);
+        inputEl.value = "";
         getCurrentWeather(geoRes[0]);
         getForecast(geoRes[0]);
         storeCity(geoRes[0]);
@@ -66,14 +68,14 @@ function storeCity(coords) {
     var includesCity = false;
 
     cityHistory.forEach(function(city) {
-        if(city.includes(coords.name)) {
+        if(city.name.includes(coords.name)) {
             console.log('includes');
             return includesCity = true;
         }
     })
     
     if(includesCity === false) {
-        var newCity = [coords.name, coords.lat, coords.lon];
+        var newCity = {name: coords.name, lat: coords.lat, lon: coords.lon};
         cityHistory.push(newCity);
         localStorage.setItem('cityHistory', JSON.stringify(cityHistory));
         displayHistory();
@@ -153,4 +155,4 @@ function displayForecast(data) {
 
 document.querySelector('.btn-primary').addEventListener('click', getCoordinates);
 
-// document.querySelector('#history-card').addEventListener('click', btnEventHandler);
+document.querySelector('#history-card').addEventListener('click', historyClickHandler);
