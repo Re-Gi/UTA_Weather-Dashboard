@@ -1,7 +1,7 @@
 # Weather-Dashboard
 ![Screenshot of deployed webpage.](./assets/images/WDStart.png)
 
-Visit the deployed application [Here.](https://re-gi.github.io/Weather-Dashboard/)
+Visit the deployed application [Here.](https://re-gi.github.io/UTA_Weather-Dashboard/)
 
 ## Description
 This application displays the current weather and 5-day forecast for a given city. This is a UTA Web Developement Bootcamp challenge for unit 6, made to strengthen my understanding of server-side APIs.
@@ -20,7 +20,7 @@ The user should begin by typing a city name into the input box and clicking the 
 
 ![Screenshot of deployed webpage.](./assets/images/WDStartTyping.png)
 
-![Screenshot of deployed webpage.](./assets/images/Denver.png)
+![Screenshot of deployed webpage.](./assets/images/WDDenver.png)
 
 To see the current weather and 5-day forecast of a previously searched city, the user should look below the 'Search' button to see all previously searched cities and click on the button with the name of that city.
 
