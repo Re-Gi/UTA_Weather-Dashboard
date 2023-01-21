@@ -5,34 +5,41 @@
     //localStorage.setItem('WeatherDashboard-History', cityHistory)
 //on page load, localStorage.getItem('weatherDashboard-History);
 
+// var cityHistory = [["San Diego", lat, lon],]
 
 
-function displayHistory() {
+function getHistoryFromStorage() {
     var cityHistory = localStorage.getItem('cityHistory');
     if(cityHistory) {
         cityHistory = JSON.parse(cityHistory);
-
-        cityHistory.forEach(function(city) {
-
-            var historyBtnEl = document.createElement('button');
-            historyBtnEl.setAttribute('class', "btn btn-history");
-            historyBtnEl.textContent = city;
-            document.querySelector('#history-card').appendChild(historyBtnEl);
-
-        });
     } else {
         cityHistory = [];
     }
     return cityHistory;
 }
 
-displayHistory();
+function displayHistory() {
+    document.querySelector('#history-card').innerHTML = "";
+    var cityHistory = getHistoryFromStorage();
 
-function btnEventHandler(event) {
-    var cityName = event.target.text();
+    cityHistory.forEach(function(city) {
+
+        var historyBtnEl = document.createElement('button');
+        historyBtnEl.setAttribute('class', "btn btn-history");
+        historyBtnEl.textContent = city[0];
+        document.querySelector('#history-card').appendChild(historyBtnEl);
+
+    });
 }
 
+displayHistory();
+
+// function btnEventHandler(event) {
+//     var cityName = event.target.text();
+// }
+
 function getCoordinates() {
+
     var inputEl = document.querySelector('input');
     var geoAPI = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputEl.value + "&limit=1&appid=07220a51e95b28fddb66e8043de4c734"
 
@@ -52,6 +59,26 @@ function getCoordinates() {
     .catch((error) => {
         console.error(error);
     });
+}
+
+function storeCity(coords) {
+    var cityHistory = getHistoryFromStorage();
+    var includesCity = false;
+
+    cityHistory.forEach(function(city) {
+        if(city.includes(coords.name)) {
+            console.log('includes');
+            return includesCity = true;
+        }
+    })
+    
+    if(includesCity === false) {
+        var newCity = [coords.name, coords.lat, coords.lon];
+        cityHistory.push(newCity);
+        localStorage.setItem('cityHistory', JSON.stringify(cityHistory));
+        displayHistory();
+    };
+    
 }
 
 function getCurrentWeather(coords) {
@@ -111,33 +138,19 @@ function displayForecast(data) {
     console.log(daysData);
     document.querySelector('#forecast-div').setAttribute('style', 'display:block;');
 
-    daysData.forEach(function(index) {
-        var parentDiv = document.querySelector('.forecast-flexbox');
-        var dayDiv = document.createElement('div');
-        var dateEl = document.createElement('h4');
-        var iconEl = document.createElement('img');
-        var tempEl = document.createElement('p');
-        var windEl = document.createElement('p');
-        var humidityEl = document.createElement('p');
+    for(var i=0; i < daysData.length; i++) {
+        var daysDivEl = document.querySelector('#day-' + [i]);
         
-        dayDiv.setAttribute('class', 'forecast-day');
-        var iconUrl = 'https://openweathermap.org/img/wn/' + index.weather[0].icon + '.png';
-        iconEl.setAttribute('src', iconUrl);
+        var iconUrl = 'https://openweathermap.org/img/wn/' + daysData[i].weather[0].icon + '.png';
+        daysDivEl.children[1].setAttribute('src', iconUrl);
 
-        dateEl.textContent = dayjs.unix(index.dt).format('M/DD/YYYY');
-        tempEl.textContent = "Temp: " + index.main.temp + "°F";
-        windEl.textContent = "Wind: " + index.wind.speed + " MPH";
-        humidityEl.textContent = "Humidity: " + index.main.humidity + " %";
-
-        parentDiv.appendChild(dayDiv);
-        dayDiv.appendChild(dateEl);
-        dayDiv.appendChild(iconEl);
-        dayDiv.appendChild(tempEl);
-        dayDiv.appendChild(windEl);
-        dayDiv.appendChild(humidityEl);
-    })
+        daysDivEl.children[0].textContent = dayjs.unix(daysData[i].dt).format('M/DD/YYYY');
+        daysDivEl.children[2].textContent = "Temp: " + daysData[i].main.temp + "°F";
+        daysDivEl.children[3].textContent = "Wind: " + daysData[i].wind.speed + " MPH";
+        daysDivEl.children[4].textContent = "Humidity: " + daysData[i].main.humidity + " %";
+    };
 }
 
 document.querySelector('.btn-primary').addEventListener('click', getCoordinates);
 
-document.querySelector('#history-card').addEventListener('click', btnEventHandler);
+// document.querySelector('#history-card').addEventListener('click', btnEventHandler);
