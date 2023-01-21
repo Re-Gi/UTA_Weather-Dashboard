@@ -1,5 +1,5 @@
 # Weather Dashboard
-![Screenshot of deployed webpage.](./assets/images/WDStart.png)
+![Screenshot of deployed webpage.](./assets/images/WDDenver.png)
 
 Visit the deployed application [Here.](https://re-gi.github.io/UTA_Weather-Dashboard/)
 
