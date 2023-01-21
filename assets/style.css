@@ -72,7 +72,7 @@ img {
     background-color: rgb(21, 37, 66);
     color: white;
     font-size: 16px;
-    width: 12rem;
+    width: 17%;
     padding: 5px;
 }
 
@@ -92,14 +92,14 @@ img {
 
 #weather-div {
     display: none;
-    width: 85%;
+    width: 90%;
     padding: 10px;
     border: 2px solid black;
 }
 
 #forecast-div {
     display: none;
-    width: 85%;
+    width: 90%;
 }
 
 #city-name {
