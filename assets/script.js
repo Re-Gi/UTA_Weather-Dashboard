@@ -43,7 +43,7 @@ function historyClickHandler(event) {
 
 function getCoordinates() {
     var inputEl = document.querySelector('input');
-    var geoAPI = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputEl.value + "&limit=1&appid=07220a51e95b28fddb66e8043de4c734"
+    var geoAPI = "https://api.openweathermap.org/geo/1.0/direct?q=" + inputEl.value + "&limit=1&appid=07220a51e95b28fddb66e8043de4c734"
 
     fetch(geoAPI)
     .then((response) => {
