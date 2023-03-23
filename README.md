@@ -12,9 +12,6 @@ The current-weather display is titled by the city's name and current date. Below
 
 The 5-day forecast display shows each of the 5 days in it's own box with that day's date, temperature, wind speed, and humidity percentage.
 
-## Installation
-N/A
-
 ## Usage
 The user should begin by typing a city name into the input box and clicking the 'Search' button to display the weather and 5-day forecast.
 
@@ -26,5 +23,32 @@ To see the current weather and 5-day forecast of a previously searched city, the
 
 ![Screenshot of deployed webpage.](./assets/images/WDAustin.png)
 
-## Liscense
-Refer to liscensing in the project repository.
+## License 
+MIT License
+
+Copyright (c) 2023 Re-Gi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+## Questions
+Contact by email with any additional questions.
+
+Visit my GitHub: [re-gi](https://github.com/re-gi)  
+Send me an email: r.l.girndt@gmail.com
